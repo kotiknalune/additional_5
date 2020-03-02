@@ -1,18 +1,25 @@
-module.exports = function check(str, bracketsConfig) {
-   var parentheses = "[]{}()",
-    bracketsConfig = [], i, object, bracketsLocation;
-  for(i = 0; object = str[i]; i++) {
-    bracketsLocation = parentheses.indexOf(object);
-    if(bracketsLocation === -1) {
-      continue;
+module.exports = function check(string, bracketsConfig) {
+    const parenthesis = "[]{}()";
+    
+    let bracketsArray = [], 
+        location, i, j;
+
+    for (i = 0; j = string[i]; i++) {
+        
+        location = parenthesis.indexOf(j);
+
+        if (location === -1) {
+            continue;
+        }
+
+        if (location % 2 === 0) {
+           bracketsArray.push(location + 1);
+        } else {
+            
+            if (bracketsArray.pop() !== location) {
+                return false;
+            }
+        }
     }
-    if(bracketsLocation % 2 === 0) {
-      bracketsConfig.push(bracketsLocation + 1);
-    } else {
-      if(bracketsConfig.pop() !== bracketsLocation) {
-        return false;
-      }
-    }
-  }
-  return bracketsConfig.length === 0;
+    return bracketsArray.length === 0;
 }
