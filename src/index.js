@@ -1,25 +1,16 @@
 module.exports = function check(string, bracketsConfig) {
-    const parenthesis = "[]{}()";
-    
-    let bracketsArray = [], 
-        location, i, j;
+  let brackets = []; // we create a new array
 
-    for (i = 0; j = string[i]; i++) {
-        
-        location = parenthesis.indexOf(j);
-
-        if (location === -1) {
-            continue;
-        }
-
-        if (location % 2 === 0) {
-           bracketsArray.push(location + 1);
-        } else {
-            
-            if (bracketsArray.pop() !== location) {
-                return false;
-            }
-        }
+  for (let i = 0; i < bracketsConfig.length; i++) { // for every item in bC
+    brackets.push(bracketsConfig[i][0] + bracketsConfig[i][1]); //
+  }
+  for (let i = 0; i < string.length; i++) {  // for every item in string
+    for (let j = 0; j < brackets.length; j++) { // and evert item in new array
+      string = string.replace(brackets[j], ""); // we cross out the found bracket
     }
-    return bracketsArray.length === 0;
+    if (string.length == 0) { // if nothing was added, the string matches
+      return true;
+    }
+  }
+  return false; // if was, then it doesnt
 }
